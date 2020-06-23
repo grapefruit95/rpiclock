@@ -59,7 +59,7 @@ def weatherLine():
         if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 
-        time.sleep(10)
+        time.sleep(2)
 
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()

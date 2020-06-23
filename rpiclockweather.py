@@ -55,7 +55,7 @@ def weatherLine():
         if currentTemp == "API Request Fail":
             outputText = "API Request Fail"
         else:
-            outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
+            outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
         if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 

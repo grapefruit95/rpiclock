@@ -54,7 +54,10 @@ def weatherLine():
 
     while True: 
         try:
+            gLast = g
             g = geocoder.ip('me')
+            if g.ok == False:
+                g = gLast
         except:
             g = "No Connection"
         print(outputText)
@@ -66,7 +69,7 @@ def weatherLine():
         if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast(g)
 
-        time.sleep(2)
+        time.sleep(900)
 
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()

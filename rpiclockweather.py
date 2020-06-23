@@ -42,7 +42,7 @@ def clockLine():
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
 
         print(time_str)
-        time.sleep(2)
+        time.sleep(0.1)
 
 def weatherLine():
     currentTemp = updateWeather()

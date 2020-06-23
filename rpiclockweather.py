@@ -3,22 +3,23 @@ import requests
 import pyowm
 import datetime
 import time
-import geocoder
-def updateWeather(g):
+import socket
+location = "Spring Branch, Texas"
+def updateWeather():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
     try:
-        observation = mgr.weather_at_coords(g.latlng[0],g.latlng[1])
+        observation = mgr.weather_at_place(location)
     except:
         return "API Request Fail"
     temp_data = observation.to_dict()['weather']['temperature']
     return str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(temp_data['temp'])))
 
-def updateForecast(g):
+def updateForecast():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
     try:
-        forecast = mgr.forecast_at_coords(g.latlng[0],g.latlng[1], "3h", limit=8)
+        forecast = mgr.forecast_at_place(location,"3h", limit=8)
     except:
         return "NA"
     maxTemp = 0
@@ -44,32 +45,21 @@ def clockLine():
         time.sleep(2)
 
 def weatherLine():
-    try:
-        g = geocoder.ip('me')
-    except:
-        g = "No Connection"
-    currentTemp = updateWeather(g)
-    maxMinTemp = updateForecast(g)
+    currentTemp = updateWeather()
+    maxMinTemp = updateForecast()
     outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
 
     while True: 
-        try:
-            gLast = g
-            g = geocoder.ip('me')
-            if g.ok == False:
-                g = gLast
-        except:
-            g = "No Connection"
         print(outputText)
-        currentTemp = updateWeather(g)
+        currentTemp = updateWeather()
         if currentTemp == "API Request Fail":
             outputText = "API Request Fail"
         else:
             outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
         if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
-            maxMinTemp = updateForecast(g)
+            maxMinTemp = updateForecast()
 
-        time.sleep(900)
+        time.sleep(10)
 
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()

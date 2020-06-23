@@ -1,12 +1,9 @@
-from geopy.geocoders import Nominatim
 import requests
 
 locations = ["Spring Branch,Texas", "San Antonio,Texas", "New Braunfels,Texas"]
 locationLatLongs = {}
 locationWeather = {}
 for location in locations:
-    locationLatLongs[location] = [Nominatim(user_agent="rpiclockweather").geocode(location, addressdetails=True).raw['lat'], Nominatim(user_agent="rpiclockweather").geocode(location, addressdetails=True).raw['lon']]
-
     url = "https://community-open-weather-map.p.rapidapi.com/weather"
 
     querystring = {"callback":"test","id":"2172797","units":"%22metric%22 or %22imperial%22","mode":"xml%2C html","q":location}

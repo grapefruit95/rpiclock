@@ -1,20 +1,59 @@
 import requests
+import pyowm
+import datetime
+import time
+import geocoder
 
-locations = ["Spring Branch,Texas", "San Antonio,Texas", "New Braunfels,Texas"]
-locationLatLongs = {}
-locationWeather = {}
-for location in locations:
-    url = "https://community-open-weather-map.p.rapidapi.com/weather"
 
-    querystring = {"callback":"test","id":"2172797","units":"%22metric%22 or %22imperial%22","mode":"xml%2C html","q":location}
+owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
+mgr = owm.weather_manager()
 
-    headers = {
-        'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
-        'x-rapidapi-key': "42d1462079mshead0e3cee7cec9fp130467jsnadc27d29ba00"
-        }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+def updateWeather():
+    try:
+        observation = mgr.weather_at_coords(g.latlng[0],g.latlng[1])
+    except:
+        return "API Request Fail"
+    temp_data = observation.to_dict()['weather']['temperature']
+    return str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(temp_data['temp'])))
 
-    locationWeather[location] = response.text
+def updateForecast():
+    try:
+        forecast = mgr.forecast_at_coords(g.latlng[0],g.latlng[1], "3h", limit=8)
+    except:
+        return "NA"
+    maxTemp = 0
+    minTemp = 1000
+    for x in forecast.forecast.to_dict()['weathers']:
+        if x['temperature']['temp_max'] > maxTemp:
+            maxTemp = x['temperature']['temp_max']
 
-print(locationWeather)
+    for x in forecast.forecast.to_dict()['weathers']:
+        if x['temperature']['temp_min'] < minTemp:
+            minTemp = x['temperature']['temp_min']
+    return [str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(maxTemp))), str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(minTemp)))]
+
+try:
+    g = geocoder.ip('me')
+except:
+    g = "No Connection"
+currentTemp = updateWeather()
+maxMinTemp = updateForecast()
+outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
+
+while True: 
+    try:
+        g = geocoder.ip('me')
+    except:
+        g = "No Connection"
+    print(outputText)
+    currentTemp = updateWeather()
+    if currentTemp == "API Request Fail":
+        outputText = "API Request Fail"
+    else:
+        outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
+    if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
+        maxMinTemp = updateForecast()
+
+    time.sleep(10)
+

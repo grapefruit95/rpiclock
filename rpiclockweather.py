@@ -173,7 +173,7 @@ def clockLine():
 def weatherLine():
     currentTemp = updateWeather()
     maxMinTemp = updateForecast()
-    outputText = (currentTemp+u'\N{DEGREE SIGN}'+"        "+maxMinTemp[0]+'/'+maxMinTemp[1]+"                ")[0:16]
+    outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
 
     while True: 
         print(outputText)

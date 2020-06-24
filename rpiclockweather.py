@@ -150,6 +150,14 @@ def clockLine():
     userDayDelta = 0
     userHourDelta = 0
     while True:
+        if !(GPIO.input(HOURPLUS)):
+          userHourDelta += 1
+        if !(GPIO.input(HOURMINUS)):
+          userHourDelta -= 1
+        if !(GPIO.input(DAYPLUS)):
+          userDayDelta += 1
+        if !(GPIO.input(DAYMINUS)):
+          userDayDelta -= 1
         currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")

@@ -162,7 +162,7 @@ def clockLine():
           userHourDelta = userHourDelta - 1
           time.sleep(0.2)
         if GPIO.input(DAYPLUS) == False:
-          userDayDelta = userDayDelta - 1
+          userDayDelta = userDayDelta + 1
           time.sleep(0.2)
         if GPIO.input(DAYMINUS) == False:
           userDayDelta = userDayDelta - 1

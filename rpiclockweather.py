@@ -5,37 +5,6 @@ import datetime
 import time
 import RPi.GPIO as GPIO
 import time
- 
-# Define GPIO to LCD mapping
-LCD_RS = 7
-LCD_E  = 8
-LCD_D4 = 25
-LCD_D5 = 24
-LCD_D6 = 23
-LCD_D7 = 18
- 
-# Define some device constants
-LCD_WIDTH = 16    # Maximum characters per line
-LCD_CHR = True
-LCD_CMD = False
- 
-LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
-LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
- 
-# Timing constants
-E_PULSE = 0.0005
-E_DELAY = 0.0005
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
-GPIO.setup(LCD_E, GPIO.OUT)  # E
-GPIO.setup(LCD_RS, GPIO.OUT) # RS
-GPIO.setup(LCD_D4, GPIO.OUT) # DB4
-GPIO.setup(LCD_D5, GPIO.OUT) # DB5
-GPIO.setup(LCD_D6, GPIO.OUT) # DB6
-GPIO.setup(LCD_D7, GPIO.OUT) # DB7
- 
-lcd_init()
 
 def lcd_init():
   # Initialise display
@@ -106,17 +75,37 @@ def lcd_string(message,line):
  
   for i in range(LCD_WIDTH):
     lcd_byte(ord(message[i]),LCD_CHR)
+
+# Define GPIO to LCD mapping
+LCD_RS = 7
+LCD_E  = 8
+LCD_D4 = 25
+LCD_D5 = 24
+LCD_D6 = 23
+LCD_D7 = 18
  
-if __name__ == '__main__':
+# Define some device constants
+LCD_WIDTH = 16    # Maximum characters per line
+LCD_CHR = True
+LCD_CMD = False
  
-  try:
-    main()
-  except KeyboardInterrupt:
-    pass
-  finally:
-    lcd_byte(0x01, LCD_CMD)
-    lcd_string("Goodbye!",LCD_LINE_1)
-    GPIO.cleanup()
+LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
+LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
+ 
+# Timing constants
+E_PULSE = 0.0005
+E_DELAY = 0.0005
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+GPIO.setup(LCD_E, GPIO.OUT)  # E
+GPIO.setup(LCD_RS, GPIO.OUT) # RS
+GPIO.setup(LCD_D4, GPIO.OUT) # DB4
+GPIO.setup(LCD_D5, GPIO.OUT) # DB5
+GPIO.setup(LCD_D6, GPIO.OUT) # DB6
+GPIO.setup(LCD_D7, GPIO.OUT) # DB7
+ 
+lcd_init()
 
 location = "Spring Branch, Texas"
 outputText = ""

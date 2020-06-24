@@ -147,8 +147,6 @@ def updateForecast():
     return [str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(maxTemp))), str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(minTemp)))]
 
 def clockLine():
-    userDayDelta = 0
-    userHourDelta = 0
     while True:
         if GPIO.input(HOURPLUS) == False:
           userHourDelta = userHourDelta + 1

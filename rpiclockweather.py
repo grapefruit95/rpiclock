@@ -83,6 +83,10 @@ LCD_D4 = 25
 LCD_D5 = 24
 LCD_D6 = 23
 LCD_D7 = 18
+HOURPLUS = 5
+HOURMINUS = 6
+DAYPLUS = 27
+DAYMINUS = 17
  
 # Define some device constants
 LCD_WIDTH = 16    # Maximum characters per line
@@ -104,6 +108,10 @@ GPIO.setup(LCD_D4, GPIO.OUT) # DB4
 GPIO.setup(LCD_D5, GPIO.OUT) # DB5
 GPIO.setup(LCD_D6, GPIO.OUT) # DB6
 GPIO.setup(LCD_D7, GPIO.OUT) # DB7
+GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
  
 lcd_init()
 

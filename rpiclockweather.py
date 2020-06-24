@@ -6,7 +6,10 @@ import time
 import RPi.GPIO as GPIO
 import time
 
-currentTime = 0
+global userDayDelta = 0
+global userHourDelta = 0
+global currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
+
 def lcd_init():
   # Initialise display
   lcd_byte(0x33,LCD_CMD) # 110011 Initialise
@@ -148,19 +151,18 @@ def updateForecast():
     return [str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(maxTemp))), str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(minTemp)))]
 
 def clockLine():
-    userDayDelta = 0
-    userHourDelta = 0
+
     while True:
-        if !(GPIO.input(HOURPLUS)):
+        if GPIO.input(HOURPLUS) == False:
           userHourDelta += 1
           time.sleep(0.2)
-        if !(GPIO.input(HOURMINUS)):
+        if GPIO.input(HOURMINUS) == False:
           userHourDelta -= 1
           time.sleep(0.2)
-        if !(GPIO.input(DAYPLUS)):
+        if GPIO.input(DAYPLUS) == False:
           userDayDelta += 1
           time.sleep(0.2)
-        if !(GPIO.input(DAYMINUS)):
+        if GPIO.input(DAYMINUS) == False:
           userDayDelta -= 1
           time.sleep(0.2)
         currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))

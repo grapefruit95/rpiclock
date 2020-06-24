@@ -6,6 +6,7 @@ import time
 import RPi.GPIO as GPIO
 import time
 
+currentTime = 0
 def lcd_init():
   # Initialise display
   lcd_byte(0x33,LCD_CMD) # 110011 Initialise
@@ -152,12 +153,16 @@ def clockLine():
     while True:
         if !(GPIO.input(HOURPLUS)):
           userHourDelta += 1
+          time.sleep(0.2)
         if !(GPIO.input(HOURMINUS)):
           userHourDelta -= 1
+          time.sleep(0.2)
         if !(GPIO.input(DAYPLUS)):
           userDayDelta += 1
+          time.sleep(0.2)
         if !(GPIO.input(DAYMINUS)):
           userDayDelta -= 1
+          time.sleep(0.2)
         currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
@@ -179,7 +184,7 @@ def weatherLine():
             outputText = "API Request Fail"
         else:
             outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
-        if (datetime.datetime.now().hour == 0 and datetime.datetime.now().minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
+        if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 
         time.sleep(120)

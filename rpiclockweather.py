@@ -126,7 +126,7 @@ def updateWeather():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
     try:
-        observation = mgr.weather_at_place(location)
+        observation = mgr.weather_at_zip_code("78070")
     except:
         return "API Request Fail"
     temp_data = observation.to_dict()['weather']['temperature']
@@ -136,7 +136,7 @@ def updateForecast():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
     try:
-        forecast = mgr.forecast_at_place(location,"3h", limit=8)
+        forecast = mgr.forecast_at_coords("29.82", "-98.3","3h", limit=8)
     except:
         return "NA"
     maxTemp = 0

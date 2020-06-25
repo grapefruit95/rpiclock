@@ -173,9 +173,17 @@ def weatherLine():
     global currentTime
     currentTemp = updateWeather()
     maxMinTemp = updateForecast()
+    if currentTemp > maxMinTemp[0]:
+      maxMinTemp[0] = currentTemp
+    elif currentTemp < maxMinTemp[1]:
+      maxMinTemp[1] = currentTemp
     outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
 
     while True: 
+        if currentTemp > maxMinTemp[0]:
+          maxMinTemp[0] = currentTemp
+        elif currentTemp < maxMinTemp[1]:
+          maxMinTemp[1] = currentTemp
         print(outputText)
         lcd_string(outputText,LCD_LINE_2)
         currentTemp = updateWeather()
@@ -186,7 +194,7 @@ def weatherLine():
         if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 
-        time.sleep(10)
+        time.sleep(120)
 
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()

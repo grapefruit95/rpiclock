@@ -167,17 +167,23 @@ def clockLine():
         lcd_string(time_str,LCD_LINE_1)
         time.sleep(0.1)
 
+def formatOutText(maxMinTemp, currentTemp):
+  numOfSpaces = 0
+  numOfSpaces = 16-(2+len(maxMinTemp[0])+len(maxMinTemp[1])+len(currentTemp))
+  return (maxMinTemp[0]+'/'+maxMinTemp[1]+(" "*numOfSpaces)+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
+
+
 def weatherLine():
     global userDayDelta
     global userHourDelta
     global currentTime
     currentTemp = updateWeather()
     maxMinTemp = updateForecast()
-    if currentTemp > maxMinTemp[0]:
+    if int(currentTemp) > int(maxMinTemp[0]):
       maxMinTemp[0] = currentTemp
-    elif currentTemp < maxMinTemp[1]:
+    elif int(currentTemp) < int(maxMinTemp[1]):
       maxMinTemp[1] = currentTemp
-    outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
+    outputText = formatOutText(maxMinTemp, currentTemp)
 
     while True: 
         if currentTemp > maxMinTemp[0]:
@@ -190,7 +196,7 @@ def weatherLine():
         if currentTemp == "API Request Fail":
             outputText = "API Request Fail"
         else:
-            outputText = (maxMinTemp[0]+'/'+maxMinTemp[1]+"        "+currentTemp+u'\N{DEGREE SIGN}'+"                ")[0:16]
+            outputText = formatOutText(maxMinTemp, currentTemp)
         if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 

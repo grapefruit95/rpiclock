@@ -136,19 +136,11 @@ def updateForecast():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
     try:
-        forecast = mgr.forecast_at_coords(29.82, -98.3,"3h", limit=8)
+        forecast = mgr.one_call(29.82, -98.3)
     except:
         return "NA"
-    maxTemp = 0
-    minTemp = 1000
-    for x in forecast.forecast.to_dict()['weathers']:
-        if x['temperature']['temp_max'] > maxTemp:
-            maxTemp = x['temperature']['temp_max']
 
-    for x in forecast.forecast.to_dict()['weathers']:
-        if x['temperature']['temp_min'] < minTemp:
-            minTemp = x['temperature']['temp_min']
-    return [str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(maxTemp))), str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(minTemp)))]
+    return [str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('max', None))), str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('min', None)))]
 
 def clockLine():
     global userDayDelta
@@ -194,7 +186,7 @@ def weatherLine():
         if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
             maxMinTemp = updateForecast()
 
-        time.sleep(120)
+        time.sleep(10)
 
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()

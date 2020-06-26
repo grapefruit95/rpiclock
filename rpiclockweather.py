@@ -42,9 +42,6 @@ def lcd_byte(bits, mode):
   if bits&0x80==0x80:
     GPIO.output(LCD_D7, True)
  
-  # Toggle 'Enable' pin
-  lcd_toggle_enable()
- 
   # Low bits
   GPIO.output(LCD_D4, False)
   GPIO.output(LCD_D5, False)
@@ -58,9 +55,6 @@ def lcd_byte(bits, mode):
     GPIO.output(LCD_D6, True)
   if bits&0x08==0x08:
     GPIO.output(LCD_D7, True)
- 
-  # Toggle 'Enable' pin
-  lcd_toggle_enable()
  
 def lcd_toggle_enable():
   # Toggle enable
@@ -79,6 +73,9 @@ def lcd_string(message,line):
  
   for i in range(LCD_WIDTH):
     lcd_byte(ord(message[i]),LCD_CHR)
+
+# Toggle 'Enable' pin
+lcd_toggle_enable()
 
 # Define GPIO to LCD mapping
 LCD_RS = 7
@@ -101,8 +98,8 @@ LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
  
 # Timing constants
-E_PULSE = 0.0005
-E_DELAY = 0.0005
+E_PULSE = 0.001
+E_DELAY = 0.001
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers

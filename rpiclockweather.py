@@ -11,28 +11,28 @@ userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 
 # Define GPIO to LCD mapping
-LCD_RS = 7
-LCD_E  = 8
-LCD_D4 = 25
-LCD_D5 = 24
-LCD_D6 = 23
-LCD_D7 = 18
+LCD_RS = 25
+LCD_E  = 24
+LCD_D4 = 23
+LCD_D5 = 17
+LCD_D6 = 18
+LCD_D7 = 22
 HOURPLUS = 5
 HOURMINUS = 6
 DAYPLUS = 27
 DAYMINUS = 17
- 
+
 # Define some device constants
 LCD_WIDTH = 16    # Maximum characters per line
 LCD_CHR = True
 LCD_CMD = False
- 
+
 LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
  
 # Timing constants
-E_PULSE = 0.001
-E_DELAY = 0.001
+E_PULSE = 0.0005
+E_DELAY = 0.0005
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
@@ -46,7 +46,6 @@ GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
- 
 
 def lcd_init():
   # Initialise display

@@ -67,7 +67,6 @@ def clockLine():
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
 
         print(time_str)
-        lcd_string(time_str,LCD_LINE_1)
         time.sleep(0.1)
 
 def formatOutText(maxMinTemp, currentTemp):
@@ -94,7 +93,6 @@ def weatherLine():
         elif currentTemp < maxMinTemp[1]:
           maxMinTemp[1] = currentTemp
         print(outputText)
-        #lcd_string(outputText,LCD_LINE_2)
         currentTemp = updateWeather()
         if currentTemp == "API Request Fail":
             outputText = "API Request Fail"

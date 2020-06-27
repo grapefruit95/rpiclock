@@ -83,7 +83,7 @@ def clockLine():
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
 
         print(time_str)
-        lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
+        lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
         lcd.lcd_string(time_str, 2)
         lcd.GPIO.cleanup()
         time.sleep(0.1)

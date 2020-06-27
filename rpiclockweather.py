@@ -67,8 +67,6 @@ def lcd_toggle_enable():
 def lcd_string(message,line):
   # Send string to display
  
-  message = message.ljust(LCD_WIDTH," ")
- 
   lcd_byte(line, LCD_CMD)
  
   for i in range(LCD_WIDTH):

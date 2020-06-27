@@ -94,8 +94,8 @@ LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
  
 # Timing constants
-E_PULSE = 0.0005
-E_DELAY = 0.0005
+E_PULSE = 0.001
+E_DELAY = 0.001
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
@@ -186,7 +186,7 @@ def weatherLine():
         elif currentTemp < maxMinTemp[1]:
           maxMinTemp[1] = currentTemp
         print(outputText)
-        lcd_string(outputText,LCD_LINE_2)
+        #lcd_string(outputText,LCD_LINE_2)
         currentTemp = updateWeather()
         if currentTemp == "API Request Fail":
             outputText = "API Request Fail"

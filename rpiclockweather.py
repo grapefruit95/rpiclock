@@ -56,6 +56,7 @@ def updateForecast():
     return [str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('max', None))), str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('min', None)))]
 
 def clockLine():
+    lcd.lcd_init()
     global userDayDelta
     global userHourDelta
     global currentTime
@@ -89,6 +90,7 @@ def formatOutText(maxMinTemp, currentTemp):
 
 
 def weatherLine():
+    lcd.lcd_init()
     global userDayDelta
     global userHourDelta
     global currentTime

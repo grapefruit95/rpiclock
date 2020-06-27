@@ -96,8 +96,8 @@ LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
  
 # Timing constants
-E_PULSE = 0.001
-E_DELAY = 0.001
+E_PULSE = 0.0005
+E_DELAY = 0.0005
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers

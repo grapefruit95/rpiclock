@@ -74,7 +74,7 @@ def clock():
           time.sleep(0.2)
         currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 
-        time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
+        time_str = datetime.datetime.strftime(currentTime, "%I:%M%p   %b %d")
 
         print(time_str)
         lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)

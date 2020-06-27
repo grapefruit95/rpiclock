@@ -47,10 +47,10 @@ def clock():
     global userHourDelta
     global currentTime
     weatherLine()
-    HOURPLUS = 21
-    HOURMINUS = 22
-    DAYPLUS = 23
-    DAYMINUS = 24
+    HOURPLUS = 4
+    HOURMINUS = 17
+    DAYPLUS = 18
+    DAYMINUS = 27
 
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers

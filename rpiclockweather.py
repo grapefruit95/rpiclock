@@ -8,29 +8,34 @@ import sys
 sys.path.append('/home/pi/lcd')
 import lcd
 
-lcd.lcd_init()
-lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
-lcd.lcd_string("Rocco's Clock", 2)
-lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
-lcd.lcd_string("Summer 2020", 2)
-lcd.GPIO.cleanup()
-
 userDayDelta = 0
 userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
-
 HOURPLUS = 5
 HOURMINUS = 6
 DAYPLUS = 27
 DAYMINUS = 13
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+def lcd_init():
+  lcd.lcd_init()
+  lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
+  lcd.lcd_string("Rocco's Clock", 2)
+  lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
+  lcd.lcd_string("Summer 2020", 2)
+  lcd.GPIO.cleanup()
 
-GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  HOURPLUS = 5
+  HOURMINUS = 6
+  DAYPLUS = 27
+  DAYMINUS = 13
+
+  GPIO.setwarnings(False)
+  GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+
+  GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+  GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 location = "Spring Branch, Texas"
 outputText = ""
@@ -56,7 +61,7 @@ def updateForecast():
     return [str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('max', None))), str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('min', None)))]
 
 def clockLine():
-    lcd.lcd_init()
+    lcd_init()
     global userDayDelta
     global userHourDelta
     global currentTime
@@ -90,7 +95,7 @@ def formatOutText(maxMinTemp, currentTemp):
 
 
 def weatherLine():
-    lcd.lcd_init()
+    lcd_init()
     global userDayDelta
     global userHourDelta
     global currentTime

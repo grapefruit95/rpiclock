@@ -46,12 +46,11 @@ def clock():
     global userDayDelta
     global userHourDelta
     global currentTime
-    lcd.lcd_init()
     weatherLine()
-    HOURPLUS = 5
-    HOURMINUS = 6
-    DAYPLUS = 27
-    DAYMINUS = 13
+    HOURPLUS = 21
+    HOURMINUS = 22
+    DAYPLUS = 23
+    DAYMINUS = 24
 
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
@@ -80,7 +79,6 @@ def clock():
         print(time_str)
         lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
         lcd.lcd_string(time_str, 2)
-        lcd.GPIO.cleanup()
         if(currentTime.hour == 0 and currentTime.minute in range(0,5)):
           weatherLine()
         time.sleep(0.1)
@@ -116,7 +114,7 @@ def weatherLine():
 
     lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
     lcd.lcd_string(outputText, 2)
-    lcd.GPIO.cleanup()
 
+lcd.lcd_init()
 clock()
 

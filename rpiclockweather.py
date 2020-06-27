@@ -82,7 +82,6 @@ def clockLine():
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p    %m/%d")
 
         print(time_str)
-        lcd_init()
         lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
         lcd.lcd_string(time_str, 2)
         lcd.GPIO.cleanup()
@@ -107,7 +106,6 @@ def weatherLine():
     outputText = formatOutText(maxMinTemp, currentTemp)
 
     while True: 
-        lcd_init()
         lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
         lcd.lcd_string(outputText, 2)
         lcd.GPIO.cleanup()
@@ -126,6 +124,7 @@ def weatherLine():
 
         time.sleep(120)
 
+lcd.lcd_init()
 Thread(target=clockLine).start()
 Thread(target=weatherLine).start()
 

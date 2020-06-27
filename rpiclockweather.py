@@ -85,7 +85,7 @@ LCD_D7 = 22
 HOURPLUS = 5
 HOURMINUS = 6
 DAYPLUS = 27
-DAYMINUS = 17
+DAYMINUS = 13
  
 # Define some device constants
 LCD_WIDTH = 16    # Maximum characters per line

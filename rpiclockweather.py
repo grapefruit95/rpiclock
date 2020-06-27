@@ -5,7 +5,6 @@ import datetime
 import time
 import RPi.GPIO as GPIO
 import time
-GPIO.cleanup()
 userDayDelta = 0
 userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
@@ -66,9 +65,7 @@ def lcd_toggle_enable():
 def lcd_string(message,line):
   # Send string to display
   message = message.ljust(LCD_WIDTH," ")
-  
-  lcd_byte(message, LCD_CMD)
- 
+   
   for i in range(LCD_WIDTH):
     lcd_byte(ord(message[i]),LCD_CHR)
 

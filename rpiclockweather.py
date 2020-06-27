@@ -24,18 +24,18 @@ def lcd_init():
   lcd.lcd_string("Summer 2020", 2)
   lcd.GPIO.cleanup()
 
-  HOURPLUS = 5
-  HOURMINUS = 6
-  DAYPLUS = 27
-  DAYMINUS = 13
+HOURPLUS = 5
+HOURMINUS = 6
+DAYPLUS = 27
+DAYMINUS = 13
 
-  GPIO.setwarnings(False)
-  GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
 
-  GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-  GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 location = "Spring Branch, Texas"
 outputText = ""

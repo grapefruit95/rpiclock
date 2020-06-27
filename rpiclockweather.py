@@ -10,10 +10,6 @@ import lcd
 userDayDelta = 0
 userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
-HOURPLUS = 5
-HOURMINUS = 6
-DAYPLUS = 27
-DAYMINUS = 13
 
 def lcd_init():
   lcd.lcd_init()
@@ -22,19 +18,6 @@ def lcd_init():
   lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
   lcd.lcd_string("Summer 2020", 2)
   lcd.GPIO.cleanup()
-
-HOURPLUS = 5
-HOURMINUS = 6
-DAYPLUS = 27
-DAYMINUS = 13
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
-
-GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 location = "Spring Branch, Texas"
 outputText = ""
@@ -64,6 +47,18 @@ def clock():
     global userHourDelta
     global currentTime
     weatherLine()
+    HOURPLUS = 5
+    HOURMINUS = 6
+    DAYPLUS = 27
+    DAYMINUS = 13
+
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)       # Use BCM GPIO numbers
+
+    GPIO.setup(HOURPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(HOURMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
         if GPIO.input(HOURPLUS) == False:
           userHourDelta = userHourDelta + 1
@@ -107,7 +102,7 @@ def weatherLine():
       maxMinTemp[1] = currentTemp
 
     currentTemp = updateWeather()
-    
+
     if currentTemp == "API Request Fail":
       outputText = "API Request Fail"
     else:

@@ -5,7 +5,7 @@ import datetime
 import time
 import RPi.GPIO as GPIO
 import time
-
+GPIO.cleanup()
 userDayDelta = 0
 userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))

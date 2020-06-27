@@ -27,7 +27,9 @@ def lcd_byte(bits, mode):
   #        False for command
  
   GPIO.output(LCD_RS, mode) # RS
-  bits = int(bits)
+  try: bits = int(bits)
+  except:
+    bits = bits
   # High bits
   GPIO.output(LCD_D4, False)
   GPIO.output(LCD_D5, False)

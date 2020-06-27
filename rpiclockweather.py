@@ -46,6 +46,7 @@ def clock():
     global userDayDelta
     global userHourDelta
     global currentTime
+    lcd.lcd_init()
     weatherLine()
     HOURPLUS = 5
     HOURMINUS = 6
@@ -117,7 +118,5 @@ def weatherLine():
     lcd.lcd_string(outputText, 2)
     lcd.GPIO.cleanup()
 
-
-lcd.lcd_init()
 clock()
 

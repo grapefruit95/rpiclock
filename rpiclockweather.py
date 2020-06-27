@@ -1,4 +1,3 @@
-from threading import Thread
 import requests
 import pyowm
 import datetime
@@ -60,10 +59,11 @@ def updateForecast():
 
     return [str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('max', None))), str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('min', None)))]
 
-def clockLine():
+def clock():
     global userDayDelta
     global userHourDelta
     global currentTime
+    weatherLine()
     while True:
         if GPIO.input(HOURPLUS) == False:
           userHourDelta = userHourDelta + 1
@@ -85,6 +85,8 @@ def clockLine():
         lcd.lcd_byte(lcd.LCD_LINE_1, lcd.LCD_CMD)
         lcd.lcd_string(time_str, 2)
         lcd.GPIO.cleanup()
+        if(currentTime.hour == 0 and currentTime.minute in range(0,5)):
+          weatherLine()
         time.sleep(0.1)
 
 def formatOutText(maxMinTemp, currentTemp):
@@ -103,29 +105,24 @@ def weatherLine():
       maxMinTemp[0] = currentTemp
     elif int(currentTemp) < int(maxMinTemp[1]):
       maxMinTemp[1] = currentTemp
+
+    currentTemp = updateWeather()
+    
+    if currentTemp == "API Request Fail":
+      outputText = "API Request Fail"
+    else:
+      outputText = formatOutText(maxMinTemp, currentTemp)
+    if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
+      maxMinTemp = updateForecast()
+    
     outputText = formatOutText(maxMinTemp, currentTemp)
+    print(outputText)
 
-    while True: 
-        lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
-        lcd.lcd_string(outputText, 2)
-        lcd.GPIO.cleanup()
-        if currentTemp > maxMinTemp[0]:
-          maxMinTemp[0] = currentTemp
-        elif currentTemp < maxMinTemp[1]:
-          maxMinTemp[1] = currentTemp
-        print(outputText)
-        currentTemp = updateWeather()
-        if currentTemp == "API Request Fail":
-            outputText = "API Request Fail"
-        else:
-            outputText = formatOutText(maxMinTemp, currentTemp)
-        if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
-            maxMinTemp = updateForecast()
+    lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
+    lcd.lcd_string(outputText, 2)
+    lcd.GPIO.cleanup()
 
-        time.sleep(120)
 
 lcd.lcd_init()
-Thread(target=clockLine).start()
-Thread(target=weatherLine).start()
-
+clock()
 

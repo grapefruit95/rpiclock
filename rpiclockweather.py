@@ -86,7 +86,7 @@ def clock():
 def formatOutText(maxMinTemp, currentTemp):
   numOfSpaces = 0
   numOfSpaces = 16-(2+len(maxMinTemp[0])+len(maxMinTemp[1])+len(currentTemp))
-  return (maxMinTemp[0]+'/'+maxMinTemp[1]+(" "*numOfSpaces)+currentTemp+u"\223"+"                ")[0:16]
+  return (maxMinTemp[0]+'/'+maxMinTemp[1]+(" "*numOfSpaces)+currentTemp+u"\49"+"                ")[0:16]
 
 
 def weatherLine():

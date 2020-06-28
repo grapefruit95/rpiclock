@@ -10,6 +10,7 @@ import lcd
 userDayDelta = 0
 userHourDelta = 0
 currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
+maxMinTemp = []
 
 def lcd_init():
   lcd.lcd_init()
@@ -46,7 +47,10 @@ def clock():
     global userDayDelta
     global userHourDelta
     global currentTime
+    global maxMinTemp
+    maxMinTemp = updateForecast()
     weatherLine()
+
     HOURPLUS = 4
     HOURMINUS = 17
     DAYPLUS = 18
@@ -93,8 +97,8 @@ def weatherLine():
     global userDayDelta
     global userHourDelta
     global currentTime
+    global maxMinTemp
     currentTemp = updateWeather()
-    maxMinTemp = updateForecast()
     
     if currentTemp == "API Request Fail":
       outputText = "API Request Fail"

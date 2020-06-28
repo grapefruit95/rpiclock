@@ -105,16 +105,16 @@ def weatherLine():
     else:
       outputText = formatOutText(maxMinTemp, currentTemp)
 
-    if int(currentTemp) > int(maxMinTemp[0]):
-      maxMinTemp[0] = currentTemp
-    elif int(currentTemp) < int(maxMinTemp[1]):
-      maxMinTemp[1] = currentTemp
+      if int(currentTemp) > int(maxMinTemp[0]):
+        maxMinTemp[0] = currentTemp
+      elif int(currentTemp) < int(maxMinTemp[1]):
+        maxMinTemp[1] = currentTemp
 
 
-    if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
-      maxMinTemp = updateForecast()
+      if (currentTime.hour == 0 and currentTime.minute in range(0,5)) or (maxMinTemp[0]+'/'+maxMinTemp[1] == "N/A"):
+        maxMinTemp = updateForecast()
     
-    outputText = formatOutText(maxMinTemp, currentTemp)
+      outputText = formatOutText(maxMinTemp, currentTemp)
     print(outputText)
 
     lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)

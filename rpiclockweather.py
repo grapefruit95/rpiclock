@@ -1,3 +1,4 @@
+import lcd
 import requests
 import pyowm
 import datetime
@@ -5,12 +6,13 @@ import time
 import RPi.GPIO as GPIO
 import sys
 sys.path.append('/home/pi/lcd')
-import lcd
 
 userDayDelta = 0
 userHourDelta = 0
-currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
+currentTime = (datetime.datetime.now() +
+               datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 maxMinTemp = []
+
 
 def lcd_init():
   lcd.lcd_init()
@@ -18,10 +20,12 @@ def lcd_init():
   lcd.lcd_string("Rocco's Clock", 2)
   lcd.lcd_byte(lcd.LCD_LINE_2, lcd.LCD_CMD)
   lcd.lcd_string("Summer 2020", 2)
-  #lcd.GPIO.cleanup()
+  # lcd.GPIO.cleanup()
+
 
 location = "Spring Branch, Texas"
 outputText = ""
+
 
 def updateWeather():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
@@ -33,6 +37,7 @@ def updateWeather():
     temp_data = observation.to_dict()['weather']['temperature']
     return str(round(pyowm.utils.measurables.kelvin_to_fahrenheit(temp_data['temp'])))
 
+
 def updateForecast():
     owm = pyowm.OWM("a51b8b1104bc88753d99c08008b0717a")
     mgr = owm.weather_manager()
@@ -42,6 +47,7 @@ def updateForecast():
         return "NA"
 
     return [str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('max', None))), str(round(forecast.forecast_daily[0].temperature('fahrenheit').get('min', None)))]
+
 
 def clock():
     global userDayDelta
@@ -64,19 +70,9 @@ def clock():
     GPIO.setup(DAYPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(DAYMINUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
-        if GPIO.input(HOURPLUS) == False:
-          userHourDelta = userHourDelta + 1
-          time.sleep(0.2)
-        if GPIO.input(HOURMINUS) == False:
-          userHourDelta = userHourDelta - 1
-          time.sleep(0.2)
-        if GPIO.input(DAYPLUS) == False:
-          userDayDelta = userDayDelta + 1
-          time.sleep(0.2)
-        if GPIO.input(DAYMINUS) == False:
-          userDayDelta = userDayDelta - 1
-          time.sleep(0.2)
-        currentTime = (datetime.datetime.now()+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
+
+        currentTime = (datetime.datetime.now(
+        )+datetime.timedelta(days=userDayDelta, hours=userHourDelta))
 
         time_str = datetime.datetime.strftime(currentTime, "%I:%M%p   %b %d")
 
@@ -86,6 +82,29 @@ def clock():
         if(currentTime.minute % 2 == 0 and currentTime.second == 1):
           weatherLine()
         time.sleep(0.1)
+
+
+def buttonInput():
+  global userDayDelta
+  global userHourDelta
+  
+  HOURPLUS = 4
+  HOURMINUS = 17
+  DAYPLUS = 18
+  DAYMINUS = 27
+
+  if GPIO.input(HOURPLUS) == False:
+    userHourDelta = userHourDelta + 1
+    time.sleep(0.2)
+  if GPIO.input(HOURMINUS) == False:
+    userHourDelta = userHourDelta - 1
+    time.sleep(0.2)
+  if GPIO.input(DAYPLUS) == False:
+    userDayDelta = userDayDelta + 1
+    time.sleep(0.2)
+  if GPIO.input(DAYMINUS) == False:
+    userDayDelta = userDayDelta - 1
+    time.sleep(0.2)
 
 def formatOutText(maxMinTemp, currentTemp):
   numOfSpaces = 0
